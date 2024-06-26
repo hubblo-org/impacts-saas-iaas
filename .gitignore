@@ -1,0 +1,6 @@
+.DS_Store
+/dist/
+node_modules/
+yarn-error.log
+*credentials.json
+*token.json
