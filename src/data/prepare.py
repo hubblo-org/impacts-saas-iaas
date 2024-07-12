@@ -31,7 +31,7 @@ tiers = {
     "network": "Tier 2 (network)",
     "datacenter": "Tier 3 (datacenter)",
     "total": "Total"
-} 
+}
 tiers_table = [ "devices", "network", "datacenter", "total" ]
 
 def get_impact_criteria_short(header):
@@ -53,7 +53,7 @@ def get_gdocs_data(tab):
 
     # If modifying these scopes, delete the file token.json.
     SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
-    
+
     # The ID and range of a sample spreadsheet.
     SAMPLE_SPREADSHEET_ID = "1NkqzASrqKoMLy6bRBcukZvrmjVZ8JGkLlTL3LoMU17A"
 
@@ -75,10 +75,10 @@ def get_gdocs_data(tab):
         # Save the credentials for the next run
         with open("token.json", "w") as token:
           token.write(creds.to_json())
-    
+
     try:
         service = build("sheets", "v4", credentials=creds)
-        
+
         # Call the Sheets API
         sheet = service.spreadsheets()
 
@@ -130,11 +130,11 @@ def get_gdocs_data(tab):
             j = j + 1
 
         return headers, data
-    
+
     except HttpError as err:
         print(err)
 
-    return None, None    
+    return None, None
 
 def main():
 
@@ -143,7 +143,7 @@ def main():
     pprint(headers)
 
     pprint(data)
-    storage_file = "storage_impact.csv" 
+    storage_file = "storage_impact.csv"
     if not exists(storage_file):
         with open(storage_file, "w") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=headers)
@@ -161,7 +161,7 @@ if __name__ == '__main__':
 #        with open(src_file, "r") as fs_sto:
 #            for l in fs_sto.readlines():
 #                if l.startswith("Service Type"):
-#                       
+#
 #                if "GWP" in l:
 #                    cols = l.split(",")
 #                    impact_criterias = cols[1:]

@@ -45,18 +45,23 @@ toc: false
 
 <div class="hero">
   <h1>Impacts SAAS &amp; IAAS</h1>
-  <h2>Welcome to your new project! Edit&nbsp;<code style="font-size: 90%;">src/index.md</code> to change this page.</h2>
-  <a href="https://observablehq.com/framework/getting-started">Get started<span style="display: inline-block; margin-left: 0.25rem;">↗︎</span></a>
 </div>
 
 ```js
-console.log("Loading data");
-const storage_impact_data = FileAttachment("data/storage_impact.csv").csv({typed: true});
-const socialnetwork_impact_data = FileAttachment("data/socialnetwork_impact.csv").csv({typed: true});
+console.log("Loading data")
+const storage_impact_data = FileAttachment("data/storage_impact.csv").csv({typed: true})
+
+const units = {"gwp": "kgCO2eq", "adpe": "kgSbeq", "adpf": "MJ", "ap": "", "ctue": "ctue", "ir": "kBqU235eq", "pm": "Disease occurence", "pocp": "kgNMVOCeq", "mips": "kg", "wp": "kg", "pe": "MJ", "fe": "MJ"}
+
+const impact_criteria = view(Inputs.select(["gwp", "adpe", "adpf", "ap", "ctue", "ir", "pm", "pocp", "mips", "wp", "pe", "fe"], {unique: true, value: "1", label: "Impact criteria"}));
+const size_gb = view(Inputs.select([1,10,100], {label: "Size in GB"}))
+const service_type = view(Inputs.select(["Storage (1 year)"]))
+const x_group = view(Inputs.select(["tier", "dc_location"], {value: "tier"}))
+const fx = view(Inputs.select(["dc_location", "tier"], {value: "dc_location"}))
 ```
 
-<h3>Storage impact, per size (GB), GWP</h3>
-<div class="grid grid-cols-1" style="grid-auto-rows: 504px;">
+<h3>Impact of ${service_type}, size in GB: ${size_gb}, ${impact_criteria}, unit: ${units[impact_criteria]}</h3>
+<div class="grid grid-cols-1">
   <div class="card">${
     resize((width) => Plot.plot({
       x: {axis: null},
@@ -64,31 +69,11 @@ const socialnetwork_impact_data = FileAttachment("data/socialnetwork_impact.csv"
       color: {scheme: "spectral", legend: true},
       marks: [
         Plot.barY(storage_impact_data, {
-          x: "tier",
-          y: "gwp",
-          fill: "tier",
-          fx: "size_gb",
-          sort: {x: null, color: null, fx: {value: "-y", reduce: "sum"}}
-        }),
-        Plot.ruleY([0])
-      ]
-    }))}
-  </div>
-</div>
-
-<h3>Storage impact, per size (GB), ADPe</h3>
-<div class="grid grid-cols-1" style="grid-auto-rows: 504px;">
-  <div class="card">${
-    resize((width) => Plot.plot({
-      x: {axis: null},
-      y: {tickFormat: "s", grid: true},
-      color: {scheme: "spectral", legend: true},
-      marks: [
-        Plot.barY(storage_impact_data, {
-          x: "tier",
-          y: "adpe",
-          fill: "tier",
-          fx: "size_gb",
+          x: x_group,
+          y: impact_criteria,
+          fill: x_group,
+          fx: fx,
+          filter: (d) => d.service_type === service_type && d.size_gb === size_gb,
           sort: {x: null, color: null, fx: {value: "-y", reduce: "sum"}}
         }),
         Plot.ruleY([0])
