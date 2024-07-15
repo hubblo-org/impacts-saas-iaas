@@ -55,9 +55,9 @@ const units = {"gwp": "kgCO2eq", "adpe": "kgSbeq", "adpf": "MJ", "ap": "", "ctue
 
 const impact_criteria = view(Inputs.select(["gwp", "adpe", "adpf", "ap", "ctue", "ir", "pm", "pocp", "mips", "wp", "pe", "fe"], {unique: true, value: "1", label: "Impact criteria"}));
 const size_gb = view(Inputs.select([1,10,100], {label: "Size in GB"}))
-const service_type = view(Inputs.select(["Storage (1 year)"]))
-const x_group = view(Inputs.select(["tier", "dc_location"], {value: "tier"}))
-const fx = view(Inputs.select(["dc_location", "tier"], {value: "dc_location"}))
+const service_type = view(Inputs.select(["Storage (1 year)"], {"label": "Service Type'"}))
+const x_group = view(Inputs.select(["tier", "dc_location"], {value: "tier", label: "X grouping by"}))
+const fx = view(Inputs.select(["dc_location", "tier"], {value: "dc_location", label: "fx grouping"}))
 ```
 
 <h3>Impact of ${service_type}, size in GB: ${size_gb}, ${impact_criteria}, unit: ${units[impact_criteria]}</h3>
