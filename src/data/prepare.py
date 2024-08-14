@@ -155,21 +155,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-#for src_file in ["storage_1.csv", "storage_2.csv"]:
-#    if exists(src_file):
-#        with open(src_file, "r") as fs_sto:
-#            for l in fs_sto.readlines():
-#                if l.startswith("Service Type"):
-#
-#                if "GWP" in l:
-#                    cols = l.split(",")
-#                    impact_criterias = cols[1:]
-#                else:
-#                    if l.startswith("Tier") or l.startswith("Total"):
-#                        cols = l.split(",")
-#                        tier = cols[0]
-#                        values = cols[1:]
-#
-#                        # use_case,tier_1,tier_2,tier_3,total
-#                        # storage
